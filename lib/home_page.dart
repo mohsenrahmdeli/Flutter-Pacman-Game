@@ -190,9 +190,9 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
                 onHorizontalDragUpdate: (details) {
-                  if (details.delta.dy > 0) {
+                  if (details.delta.dx > 0) {
                     directoin = 'right';
-                  } else if (details.delta.dy < 0) {
+                  } else if (details.delta.dx < 0) {
                     directoin = 'left';
                   }
                 },
