@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyPixel extends StatelessWidget {
+class MyPath extends StatelessWidget {
   final innerColor;
   final outerColor;
   final child;
-  const MyPixel({this.innerColor,this.outerColor,this.child,super.key});
+  const MyPath({this.innerColor,this.outerColor,this.child,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class MyPixel extends StatelessWidget {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(6.0),
       child: Container(
-        padding: EdgeInsets.all(4.0),
+        padding: EdgeInsets.all(12.0),
         color:outerColor,
         child: ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
