@@ -137,21 +137,40 @@ class _HomePageState extends State<HomePage> {
           moveDown();
           break;
       }
-
-      
     });
   }
 
-  void moveLeft(){}
-  void moveRight(){
-    if (!barriers.contains(player + 1)) {
-        setState(() {
-          player++;
-        });
-      }
+  void moveLeft() {
+    if (!barriers.contains(player - 1)) {
+      setState(() {
+        player--;
+      });
+    }
   }
-  void moveUp(){}
-  void moveDown(){}
+
+  void moveRight() {
+    if (!barriers.contains(player + 1)) {
+      setState(() {
+        player++;
+      });
+    }
+  }
+
+  void moveUp() {
+    if (!barriers.contains(player - numberRow)) {
+      setState(() {
+        player -= numberRow;
+      });
+    }
+  }
+
+  void moveDown() {
+    if (!barriers.contains(player + numberRow)) {
+      setState(() {
+        player += numberRow;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
