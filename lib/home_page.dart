@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'pixel.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -117,7 +119,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.black,
         body: Column(
           children: [
             Expanded(
@@ -130,27 +132,17 @@ class _HomePageState extends State<HomePage> {
                       crossAxisCount: numberRow),
                   itemBuilder: (BuildContext context, int index) {
                     if (barriers.contains(index)) {
-                      return Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Container(
-                          color: Colors.blue,
-                          child: Center(
-                            child: Text(
-                              index.toString(),
-                            ),
-                          ),
+                      return MyPixel(
+                        color: Colors.blue[900],
+                        child: Text(
+                          index.toString(),
                         ),
                       );
                     } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Container(
-                          color: Colors.grey,
-                          child: Center(
-                            child: Text(
-                              index.toString(),
-                            ),
-                          ),
+                      return MyPixel(
+                        color: Colors.black,
+                        child: Text(
+                          index.toString(),
                         ),
                       );
                     }
