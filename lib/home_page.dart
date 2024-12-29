@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'path.dart';
 import 'pixel.dart';
+import 'player.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static int numberRow = 11;
   int numberOfSquares = numberRow * 17;
+  int player = numberRow * 15 + 1;
+  String directoin = 'right';
   List<int> barriers = [
     0,
     1,
@@ -116,6 +121,38 @@ class _HomePageState extends State<HomePage> {
     160,
   ];
 
+  void startgame() {
+    Timer.periodic(Duration(milliseconds: 150), (timer) {
+      switch (directoin) {
+        case 'left':
+          moveLeft();
+          break;
+        case 'right':
+          moveRight();
+          break;
+        case 'up':
+          moveUp();
+          break;
+        case 'down':
+          moveDown();
+          break;
+      }
+
+      
+    });
+  }
+
+  void moveLeft(){}
+  void moveRight(){
+    if (!barriers.contains(player + 1)) {
+        setState(() {
+          player++;
+        });
+      }
+  }
+  void moveUp(){}
+  void moveDown(){}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -125,31 +162,49 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               flex: 5,
-              child: Container(
-                child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: numberOfSquares,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: numberRow),
-                  itemBuilder: (BuildContext context, int index) {
-                    if (barriers.contains(index)) {
-                      return MyPixel(
-                        innerColor: Colors.blue[800],
-                        outerColor: Colors.blue[900],
-                        // child: Text(
-                        //   index.toString(),
-                        // ),
-                      );
-                    } else {
-                      return MyPath(
-                        innerColor: Colors.yellow,
-                        outerColor: Colors.black,
-                        // child: Text(
-                        //   index.toString(),
-                        // ),
-                      );
-                    }
-                  },
+              child: GestureDetector(
+                onVerticalDragUpdate: (details) {
+                  if (details.delta.dy > 0) {
+                    directoin = 'down';
+                  } else if (details.delta.dy < 0) {
+                    directoin = 'up';
+                  }
+                },
+                onHorizontalDragUpdate: (details) {
+                  if (details.delta.dy > 0) {
+                    directoin = 'right';
+                  } else if (details.delta.dy < 0) {
+                    directoin = 'left';
+                  }
+                },
+                child: Container(
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: numberOfSquares,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: numberRow),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (player == index) {
+                        return MyPlayer();
+                      } else if (barriers.contains(index)) {
+                        return MyPixel(
+                          innerColor: Colors.blue[800],
+                          outerColor: Colors.blue[900],
+                          // child: Text(
+                          //   index.toString(),
+                          // ),
+                        );
+                      } else {
+                        return MyPath(
+                          innerColor: Colors.yellow,
+                          outerColor: Colors.black,
+                          // child: Text(
+                          //   index.toString(),
+                          // ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ),
@@ -165,11 +220,14 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 40,
                       ),
                     ),
-                    Text(
-                      'P L A Y',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
+                    GestureDetector(
+                      onTap: startgame,
+                      child: Text(
+                        'P L A Y',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                        ),
                       ),
                     ),
                   ],
